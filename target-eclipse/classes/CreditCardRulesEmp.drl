@@ -1,0 +1,196 @@
+
+
+import org.groovy.creditcard.Customer;
+import org.groovy.creditcard.CustomerEmployment;
+import java.util.Map;
+import java.util.HashMap;
+import java.lang.*;
+
+rule " Basic Annual Income"
+
+when
+	$custEmp : CustomerEmployment(annualIncome < 5000)
+then
+	$custEmp.setScore(5);	
+end
+
+
+rule " No Annual Income"
+
+when
+	$custEmp : CustomerEmployment(annualIncome == 0)
+then
+	$custEmp.setScore(-100);	
+end
+
+
+rule " Basic High Annual Income "
+
+when 
+	$custEmp : CustomerEmployment(annualIncome < 7500 && annualIncome > 5000)
+then
+	$custEmp.setScore(($custEmp.getScore())+10);	
+end
+
+
+rule "Basic High Annual Income2"
+	
+when
+	$custEmp : CustomerEmployment(annualIncome < 10000 && annualIncome > 7500)
+then
+	$custEmp.setScore(($custEmp.getScore())+15);		
+end
+
+rule "Basic High Annual Income and Residential status"
+	
+when
+	$custEmp : CustomerEmployment(annualIncome < 10000 && residentialStatus == "Rent")
+then
+	$custEmp.setScore(($custEmp.getScore())+7);		
+end
+
+rule "Basic medium Annual Income and Residential status1"
+	
+when
+	$custEmp : CustomerEmployment(annualIncome < 7500 && residentialStatus == "Rent")
+then
+	$custEmp.setScore(($custEmp.getScore())+5);		
+end
+
+rule "Basic medium Annual Income and Residential status2"
+	
+when
+	$custEmp : CustomerEmployment(annualIncome > 5000 && annualIncome < 7500 && residentialStatus == "Rent")
+then
+	$custEmp.setScore(($custEmp.getScore())+3);		
+end
+
+rule "Intermediate Annual Income and Residential status"
+	
+when
+	$custEmp : CustomerEmployment(annualIncome > 10000 && annualIncome < 15000 && residentialStatus == "Rent")
+then
+	$custEmp.setScore(($custEmp.getScore())+12);		
+end
+
+rule "Intermediate better Annual Income and Residential status"
+	
+when
+	$custEmp : CustomerEmployment(annualIncome > 15000 && annualIncome < 25000 && residentialStatus == "Rent")
+then
+	$custEmp.setScore(($custEmp.getScore())+13);		
+end
+
+rule "Intermediate better Annual Income and Residential status2"
+	
+when
+	$custEmp : CustomerEmployment(annualIncome > 15000 && annualIncome < 25000 && residentialStatus == "Rent")
+then
+	$custEmp.setScore(($custEmp.getScore())+13);		
+end
+
+rule "Intermediate high Annual Income and Residential status"
+	
+when
+	$custEmp : CustomerEmployment(annualIncome > 25000 && annualIncome < 40000 && residentialStatus == "Rent")
+then
+	$custEmp.setScore(($custEmp.getScore())+25);		
+end
+
+rule "High Annual Income and Residential status"
+	
+when
+	$custEmp : CustomerEmployment(annualIncome > 40000 && annualIncome < 60000 && residentialStatus == "Rent")
+then
+	$custEmp.setScore(($custEmp.getScore())+25);		
+end
+
+rule "High Annual Income and Residential status Owned"
+	
+when
+	$custEmp : CustomerEmployment(annualIncome > 60000 && annualIncome < 80000 && residentialStatus == "Own")
+then
+	$custEmp.setScore(($custEmp.getScore())+35);		
+end
+
+rule "Very High Annual Income and Residential status"
+	
+when
+	$custEmp : CustomerEmployment(annualIncome > 80000 && residentialStatus == "Own")
+then
+	$custEmp.setScore(($custEmp.getScore())+35);		
+end
+
+rule "Very High Annual Income and Residential status and Mortgage status"
+	
+when
+	$custEmp : CustomerEmployment(annualIncome > 80000 && residentialStatus == "Own" && monthlyMortgageRent < 1000)
+then
+	$custEmp.setScore(($custEmp.getScore())-10);		
+end
+
+rule "Very High Annual Income and Residential status and medium Mortgage status"
+	
+when
+	$custEmp : CustomerEmployment(annualIncome > 80000 && residentialStatus == "Own" && monthlyMortgageRent > 1000 && monthlyMortgageRent < 2000)
+then
+	$custEmp.setScore(($custEmp.getScore())-15);		
+end
+
+rule "Very High Annual Income and Residential status and high Mortgage status"
+	
+when
+	$custEmp : CustomerEmployment(annualIncome > 80000 && residentialStatus == "Own" && monthlyMortgageRent > 2000)
+then
+	$custEmp.setScore(($custEmp.getScore())-25);		
+end
+
+rule "Basic High Annual Income and other income"
+	
+when
+	$custEmp : CustomerEmployment(annualIncome < 10000 && annualIncome > 7500 && otherAnnualIncome < 1000)
+then
+	$custEmp.setScore(($custEmp.getScore())+5);		
+end
+
+
+rule "Basic High Annual Income and other intermediate income"
+	
+when
+	$custEmp : CustomerEmployment(annualIncome < 10000 && annualIncome > 7500 && otherAnnualIncome > 1000 && otherAnnualIncome < 3000)
+then
+	$custEmp.setScore(($custEmp.getScore())+15);		
+end
+
+rule "Basic High Annual Income and other high income"
+	
+when
+	$custEmp : CustomerEmployment(annualIncome < 10000 && annualIncome > 7500 && otherAnnualIncome > 3000)
+then
+	$custEmp.setScore(($custEmp.getScore())+15);		
+end
+
+rule "Very High Annual Income and Residential status and high Mortgage status and otherincome"
+	
+when
+	$custEmp : CustomerEmployment(annualIncome > 80000 && residentialStatus == "Own" && monthlyMortgageRent > 2000 && otherAnnualIncome < 1000)
+then
+	$custEmp.setScore(($custEmp.getScore())+10);		
+end
+
+rule "Very High Annual Income and Residential status and high Mortgage status and otherincome2"
+	
+when
+	$custEmp : CustomerEmployment(annualIncome > 80000 && residentialStatus == "Own" && monthlyMortgageRent > 2000 && otherAnnualIncome > 1000)
+then
+	$custEmp.setScore(($custEmp.getScore())+5);		
+end
+
+rule "Basic High Annual Income and other high income and mortgage"
+	
+when
+	$custEmp : CustomerEmployment(annualIncome < 10000 && annualIncome > 7500 && monthlyMortgageRent > 1000 && monthlyMortgageRent < 2000 && otherAnnualIncome > 3000)
+then
+	$custEmp.setScore(($custEmp.getScore())+10);		
+end
+

@@ -1,0 +1,280 @@
+
+import org.groovy.creditcard.Customer;
+
+rule "State Validity" 
+when
+$cust : Customer(state != 'az')
+then
+$cust.setScore($cust.getScore()-1);
+System.out.println(" Age Score1 : "+$cust.getScore());
+end
+
+
+rule "SSN Validity" 
+when
+$cust : Customer(ssn == null)
+then
+$cust.setScore(-1000);
+System.out.println(" SSN Score1 : "+$cust.getScore());
+end
+
+rule "Rule age1 " 
+when
+$cust : Customer( age >18 && age<28 )
+eval(true)
+then
+$cust.setScore($cust.getScore()+ 1);
+System.out.println(" r1 : "+$cust.getScore());
+end
+
+rule "Rule age 2"
+when
+$cust : Customer( age >28 && age<35 )
+eval(true)
+then
+$cust.setScore($cust.getScore()+ 1);
+System.out.println(" r2 : "+$cust.getScore());
+end
+
+rule "Rule age 3"
+when
+$cust : Customer( age >28 && maritalStatus=="Single" )
+eval(true)
+then
+$cust.setScore($cust.getScore()+ 5);
+System.out.println(" r3 : "+$cust.getScore());
+end
+
+rule "Rule age 4"
+when
+$cust : Customer( age >28 && maritalStatus=="Married" )
+eval(true)
+then
+$cust.setScore($cust.getScore()+ 2);
+System.out.println(" r4 : "+$cust.getScore());
+end
+
+rule "Rule age 5"
+when
+$cust : Customer( age >28 && maritalStatus=="Widowed" )
+eval(true)
+then
+$cust.setScore($cust.getScore()+ 3);
+System.out.println(" r5 : "+$cust.getScore());
+end
+
+rule "Rule 6"
+when
+$cust : Customer( age >28 && state == "IL" )
+eval(true)
+then
+$cust.setScore($cust.getScore()+ 3);
+System.out.println(" r6 : "+$cust.getScore());
+end
+
+rule "Rule 7"
+when
+$cust : Customer( age >18 && age < 28 && state == "IL" )
+eval(true)
+then
+$cust.setScore($cust.getScore()+ 5);
+System.out.println(" r7 : "+$cust.getScore());
+end
+
+rule "Rule 8"
+when
+$cust : Customer( age >18 && age < 28 && state == "IL" && city == "chicago" )
+eval(true)
+then
+$cust.setScore($cust.getScore()+ 8);
+System.out.println(" r8 : "+$cust.getScore());
+end
+
+rule "Rule 9"
+when
+$cust : Customer( age >18 && age < 28 && state == "IL" && city != "chicago" )
+eval(true)
+then
+$cust.setScore($cust.getScore()-2);
+System.out.println(" r9 : "+$cust.getScore());
+end
+
+rule "Rule 10"
+when
+$cust : Customer( age >18 && age < 28 && state != "IL")
+eval(true)
+then
+$cust.setScore($cust.getScore()-2);
+System.out.println(" r10 : "+$cust.getScore());
+end
+
+rule "Rule 11"
+when
+$cust : Customer( age >18 && age < 28 && state != "IL" && creditRating < 3 )
+eval(true)
+then
+$cust.setScore($cust.getScore()-2);
+System.out.println(" r11 : "+$cust.getScore());
+end
+
+rule "Rule 12"
+when
+$cust : Customer( age >18 && age < 28 && state != "IL" && creditRating > 3 && creditRating < 5 )
+eval(true)
+then
+$cust.setScore($cust.getScore()+1);
+System.out.println(" r12 : "+$cust.getScore());
+end
+
+rule "Rule 13"
+when
+$cust : Customer( age >18 && age < 28 && state == "IL" && creditRating > 3 && creditRating < 5 )
+eval(true)
+then
+$cust.setScore($cust.getScore()+3);
+System.out.println(" r13 : "+$cust.getScore());
+end
+
+rule "Rule 135"
+when
+$cust : Customer( age >18 && age < 28 && state == "IL" && creditRating > 5 && creditRating < 7 )
+eval(true)
+then
+$cust.setScore($cust.getScore()+5);
+System.out.println(" r13 : "+$cust.getScore());
+end
+
+rule "Rule 14"
+when
+$cust : Customer( age >18 && age < 28 && state != "IL" && creditRating > 5 && creditRating < 7 )
+eval(true)
+then
+$cust.setScore($cust.getScore()+3);
+System.out.println(" r14 : "+$cust.getScore());
+end
+
+rule "Rule 15"
+when
+$cust : Customer( age >18 && age < 28 && state != "IL" && creditRating > 7 )
+eval(true)
+then
+$cust.setScore($cust.getScore()+7);
+System.out.println(" r15 : "+$cust.getScore());
+end
+
+rule "Rule 16"
+when
+$cust : Customer( age >18 && age < 28 && state == "IL" && creditRating > 7 && dl == "none")
+eval(true)
+then
+$cust.setScore($cust.getScore()+7);
+System.out.println(" r16 : "+$cust.getScore());
+end
+
+rule "Rule 17"
+when
+$cust : Customer( age >18 && age < 28 && state == "IL" && creditRating > 7 && dl == "speeding")
+eval(true)
+then
+$cust.setScore($cust.getScore()-2);
+System.out.println(" r17 : "+$cust.getScore());
+end
+
+rule "Rule 18"
+when
+$cust : Customer( age >18 && age < 28 && state == "IL" && creditRating > 7 && dl == "accident")
+eval(true)
+then
+$cust.setScore($cust.getScore()-7);
+System.out.println(" r18 : "+$cust.getScore());
+end
+
+rule "Rule 19"
+when
+$cust : Customer( age >18 && age < 28 && state == "IL" && creditRating > 7 && dl == "accident" && crime == "none")
+eval(true)
+then
+$cust.setScore($cust.getScore()+1);
+System.out.println(" r19 : "+$cust.getScore());
+end
+
+rule "Rule 20"
+when
+$cust : Customer( age >18 && age < 28 && state == "IL" && creditRating > 7 && dl == "accident" && crime == "low")
+eval(true)
+then
+$cust.setScore($cust.getScore()-2);
+System.out.println(" r20 : "+$cust.getScore());
+end
+
+rule "Rule 21"
+when
+$cust : Customer( age >18 && age < 28 && state == "IL" && creditRating > 7 && dl == "accident" && crime == "medium")
+eval(true)
+then
+$cust.setScore($cust.getScore()-4);
+System.out.println(" r21 : "+$cust.getScore());
+end
+
+rule "Rule 22"
+when
+$cust : Customer( age >18 && age < 28 && state == "IL" && creditRating > 7 && dl == "accident" && crime == "high")
+eval(true)
+then
+$cust.setScore($cust.getScore()-7);
+System.out.println(" r21 : "+$cust.getScore());
+end
+
+rule "Rule 23"
+when
+$cust : Customer( age >18 && age < 28 && state != "IL" && creditRating > 7 && dl == "accident" && crime == "high")
+eval(true)
+then
+$cust.setScore($cust.getScore()-7);
+System.out.println(" r23 : "+$cust.getScore());
+end
+
+rule "Rule 24"
+when
+$cust : Customer( age >18 && age < 28 && state != "IL" && creditRating > 7 && dl == "speeding" && crime == "medium")
+eval(true)
+then
+$cust.setScore($cust.getScore()-7);
+System.out.println(" r24 : "+$cust.getScore());
+end
+
+rule "Rule 25"
+when
+$cust : Customer( age >18 && age < 28 && state != "IL" && creditRating > 7 && dl == "none" && crime == "none")
+eval(true)
+then
+$cust.setScore($cust.getScore()+6);
+System.out.println(" r25 : "+$cust.getScore());
+end
+
+rule "Rule 26"
+when
+$cust : Customer( age >18 && age < 28 && state != "IL" && creditRating < 3 && dl == "none" && crime == "low")
+eval(true)
+then
+$cust.setScore($cust.getScore()+2);
+System.out.println(" r26 : "+$cust.getScore());
+end
+
+rule "Rule 27"
+when
+$cust : Customer( age >18 && age < 28 && state != "IL" && creditRating > 3 && creditRating < 5 && dl == "none" && crime == "low")
+eval(true)
+then
+$cust.setScore($cust.getScore()+7);
+System.out.println(" r27 : "+$cust.getScore());
+end
+
+rule "Rule 28"
+when
+$cust : Customer( age >18 && age < 28 && state != "IL" && creditRating > 3 && creditRating < 5 && dl == "accident" && crime == "low")
+eval(true)
+then
+$cust.setScore($cust.getScore()-7);
+System.out.println(" r28 : "+$cust.getScore());
+end
